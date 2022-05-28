@@ -6,18 +6,33 @@ using UnityEngine;
 public class Magnet : MonoBehaviour
 {
     public float magnetForce = 10;
+    
+    public bool redMagnet;
 
     public GameObject player;
 
     public LayerMask wallLayer;
 
-   RaycastHit hit;
+    private ChangeColorAndMaterialBehavior _changeColorAndMaterialBehavior;
+
+    private int _changeDirection;
+
+    RaycastHit hit;
 
 
     private void Start()
     {
+        if (redMagnet)
+        {
+            _changeDirection = -1;
+        }
+        else
+        {
+            _changeDirection = 1;
+        }
         player = GameObject.Find("Player");
-        InvokeRepeating("ChangeForceDirection", .1f, 3f);
+        _changeColorAndMaterialBehavior = player.GetComponent<ChangeColorAndMaterialBehavior>();
+        // InvokeRepeating("ChangeForceDirection", .1f, 3f);
     }
 
     void FixedUpdate()
@@ -29,18 +44,22 @@ public class Magnet : MonoBehaviour
         {
             if (hit.rigidbody != null)
             {
-                Debug.Log("Hitting");
-                hit.rigidbody.AddForce(ray.direction * magnetForce);
+                if (_changeColorAndMaterialBehavior.northPole)
+                {
+                    hit.rigidbody.AddForce(ray.direction * (magnetForce * 1 * _changeDirection));
+                }
+                else
+                {
+                    hit.rigidbody.AddForce(ray.direction * (magnetForce * -1 * _changeDirection));
+                }
             }
         }
         
         Debug.DrawRay(ray.origin, ray.direction * 10);
     }
 
-    public void ChangeForceDirection()
-    {
-        magnetForce *= (-1);
-    }
-
-   
+    // public void ChangeForceDirection()
+    // {
+    //     magnetForce *= (-1);
+    // }
 }
