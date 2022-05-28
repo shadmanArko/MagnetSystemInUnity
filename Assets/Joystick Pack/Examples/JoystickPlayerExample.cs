@@ -13,12 +13,14 @@ public class JoystickPlayerExample : MonoBehaviour
     [SerializeField] private Transform playerTransform ;
     [SerializeField] private float playerSpeed ;
 
+    private Vector3 direction;
+
     private void OnEnable () {
         swipeListener.OnSwipe.AddListener (OnSwipe) ;
     }
     public void FixedUpdate()
     {
-        Vector3 direction = Vector3.forward * variableJoystick.Vertical + Vector3.right * variableJoystick.Horizontal;
+        direction = Vector3.forward * variableJoystick.Vertical + Vector3.right * variableJoystick.Horizontal;
         rb.AddForce(direction * speed * Time.fixedDeltaTime, ForceMode.Impulse);
     }
     
@@ -31,7 +33,7 @@ public class JoystickPlayerExample : MonoBehaviour
             case "Right":
                 Debug.Log("Right");
                 
-                rb.AddForce(new Vector3(0, 0, 5f), ForceMode.VelocityChange);
+                rb.AddForce(direction * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
                 
                 break ;
             case "Up":
