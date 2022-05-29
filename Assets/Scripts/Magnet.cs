@@ -6,8 +6,10 @@ using UnityEngine;
 public class Magnet : MonoBehaviour
 {
     public float magnetForce = 10;
+
+    public float magnetDistance = 10;
     
-    public bool redMagnet;
+    public bool blueMagnet;
 
     public GameObject player;
 
@@ -22,7 +24,7 @@ public class Magnet : MonoBehaviour
 
     private void Start()
     {
-        if (redMagnet)
+        if (blueMagnet)
         {
             _changeDirection = -1;
         }
@@ -32,7 +34,6 @@ public class Magnet : MonoBehaviour
         }
         player = GameObject.Find("Player");
         _changeColorAndMaterialBehavior = player.GetComponent<ChangeColorAndMaterialBehavior>();
-        // InvokeRepeating("ChangeForceDirection", .1f, 3f);
     }
 
     void FixedUpdate()
@@ -40,7 +41,7 @@ public class Magnet : MonoBehaviour
         transform.LookAt(player.transform);
         Ray ray = new Ray(transform.position, transform.forward);
 
-        if (Physics.Raycast(ray, out hit, 10, wallLayer))
+        if (Physics.Raycast(ray, out hit, magnetDistance, wallLayer))
         {
             if (hit.rigidbody != null)
             {
@@ -55,11 +56,8 @@ public class Magnet : MonoBehaviour
             }
         }
         
-        Debug.DrawRay(ray.origin, ray.direction * 10);
+        Debug.DrawRay(ray.origin, ray.direction * magnetDistance);
     }
 
-    // public void ChangeForceDirection()
-    // {
-    //     magnetForce *= (-1);
-    // }
+  
 }

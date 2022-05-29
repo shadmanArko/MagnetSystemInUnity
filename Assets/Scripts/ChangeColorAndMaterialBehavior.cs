@@ -12,7 +12,7 @@ public class ChangeColorAndMaterialBehavior : MonoBehaviour
     {
         northPole = true;
         material.color = Color.red;
-        InvokeRepeating("ChangeMaterialColor", 0.1f, 3f);
+        InvokeRepeating("ChangeMaterialColor", 0.1f, 5f);
     }
 
     // Update is called once per frame
